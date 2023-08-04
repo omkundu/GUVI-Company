@@ -1,11 +1,12 @@
 const express = require("express");
 const app=express()
 const cors = require("cors");
-
 const { connection } = require("./config/db");
 const { VenderModel } = require("./models/Vender.model");
 
 require("dotenv").config();
+
+
 
 app.use(express.json());
 app.use(
@@ -51,13 +52,15 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, async () => {
-  try {
-    await connection;
-    console.log("Connected to DB Successfully");
-  } catch (err) {
-    console.log("Error connecting to DB");
-    console.log(err);
-  }
-  console.log(`Listening on PORT ${process.env.PORT}`);
-});
+connection()
+.then(data=>{
+  app.listen(process.env.PORT, async () => {
+    console.log(`Listening on PORT ${process.env.PORT}`);
+  });
+})
+.catch(err=>{
+  console.log(err)
+})
+
+
+
