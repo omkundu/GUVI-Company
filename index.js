@@ -47,7 +47,7 @@ app.post("/login", async (req, res) => {
       res.send("Login failed");
     }
   } catch {
-    res.send("Something went wrong, please try again later");
+    res.send("Something went wrong, please try with correct creditials");
   }
 });
 
