@@ -1,17 +1,25 @@
 const mongoose = require("mongoose");
 
 const venderSchema = mongoose.Schema({
-  email: String,
-  require: true,
-  unique: true,
-  password: String,
-  require: true,
-  name: String,
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
   age: String,
   dob: String,
-  mobile: string,
-  gender: string,
+  mobile: String,
+  gender: String
 });
+
 
 const VenderModel = mongoose.model("vender", venderSchema);
 
