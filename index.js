@@ -37,20 +37,43 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// app.post("/login", async (req, res) => {
+//   const { email, password } = req.body;
+//   try {
+//     const user = await VenderModel.find({ email });
+
+//     if (user) {
+//    return   res.status(200).send({ msg: "Login successfull" });
+//     } else {
+//     return  res.status(201).send("Login failed");
+//     }
+//   } catch {
+//    return res.status(500).send("Something went wrong, please try with correct creditials");
+//   }
+// });
+
+
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await VenderModel.find({ email });
+    const user = await VenderModel.findOne({ email });
 
     if (user) {
-   return   res.status(200).send({ msg: "Login successfull" });
+      // Compare the password here and send appropriate response
+      // For security reasons, avoid sending specific messages about login success or failure
+      if (user.password === password) {
+        return res.status(200).send({ msg: "Login successful" });
+      } else {
+        return res.status(401).send({ msg: "Invalid credentials" });
+      }
     } else {
-    return  res.status(201).send("Login failed");
+      return res.status(404).send({ msg: "User not found" });
     }
-  } catch {
-   return res.status(500).send("Something went wrong, please try with correct creditials");
+  } catch (error) {
+    return res.status(500).send({ msg: "Something went wrong, please try again" });
   }
 });
+
 
 connection()
 .then(data=>{
