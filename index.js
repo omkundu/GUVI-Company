@@ -24,15 +24,15 @@ app.post("/signup", async (req, res) => {
   const { email, password, name } = req.body;
   const userPresent = await VenderModel.findOne({ email });
   if (userPresent?.email) {
-    res.send("Try loggin in, already exist");
+    return res.status(409).json({ error: 'Email already exists.' });
   } else {
     try {
       const user = new VenderModel({ email, password, name });
       await user.save();
-      res.send("Sign up successfull");
+     return  res.status(200).send("Sign up successfull");
     } catch (err) {
       console.log(err);
-      res.send("Something went wrong, pls try again later");
+      return res.status(500).send("Something went wrong, pls try again later");
     }
   }
 });
@@ -43,12 +43,12 @@ app.post("/login", async (req, res) => {
     const user = await VenderModel.find({ email });
 
     if (user) {
-      res.status(201).send({ msg: "Login successfull" });
+   return   res.status(200).send({ msg: "Login successfull" });
     } else {
-      res.send("Login failed");
+    return  res.status(201).send("Login failed");
     }
   } catch {
-    res.send("Something went wrong, please try with correct creditials");
+   return res.status(500).send("Something went wrong, please try with correct creditials");
   }
 });
 
